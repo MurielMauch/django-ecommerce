@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User  # the django default user model
 
+
 # Create your models here.
 
 
@@ -78,3 +79,12 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
+
+    @property
+    def shipping(self):
+        shipping = False
+        orderitems = self.orderitem_set.all()
+        for item in orderitems:
+            if item.product.digital == False:
+                shipping = True
+        return shipping
